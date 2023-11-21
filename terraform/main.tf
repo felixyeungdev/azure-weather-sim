@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.0.2"
+      version = "~> 3.81.0"
     }
     random = {
       source  = "hashicorp/random"
@@ -19,12 +19,12 @@ provider "azurerm" {
 
 resource "azurerm_resource_group" "rg" {
   name     = "uol_feps_soc_comp3211_cwk_sc21lty"
-  location = "uksouth"
+  location = var.resource_group_location
 }
 
 resource "random_string" "storage_account_name" {
-    length           = 16
-    upper =false
+  length  = 16
+  upper   = false
   special = false
 }
 
@@ -48,22 +48,13 @@ resource "azurerm_service_plan" "service_plan" {
   sku_name = "Y1"
 }
 
-
-resource "azurerm_linux_function_app" "collect_sensors_data" {
-  name                = "collect-sensors-data"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-
-  service_plan_id            = azurerm_service_plan.service_plan.id
-  storage_account_name       = azurerm_storage_account.storage_account.name
-  storage_account_access_key = azurerm_storage_account.storage_account.primary_access_key
-
-
-  site_config {}
+resource "random_pet" "serverless_name" {
+  prefix = "serverless"
 }
 
-resource "azurerm_linux_function_app" "analyse_sensors_data" {
-  name                = "analyse-sensors-data"
+
+resource "azurerm_linux_function_app" "serverless_app" {
+  name                = random_pet.serverless_name.id
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
@@ -71,7 +62,16 @@ resource "azurerm_linux_function_app" "analyse_sensors_data" {
   storage_account_name       = azurerm_storage_account.storage_account.name
   storage_account_access_key = azurerm_storage_account.storage_account.primary_access_key
 
-  site_config {}
+
+  app_settings = {
+    "FUNCTIONS_WORKER_RUNTIME" = "node",
+  }
+
+  site_config {
+    application_stack {
+      node_version = 18
+    }
+  }
 }
 
 resource "random_pet" "sql_server_name" {
