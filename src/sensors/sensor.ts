@@ -41,6 +41,7 @@ export class Sensor {
   }
 
   async collectData() {
+    const recordedAt = new Date().toISOString();
     const [temperature, windSpeed, relativeHumidity, co2] = await Promise.all([
       this.getTemperature(),
       this.getWindSpeed(),
@@ -53,6 +54,7 @@ export class Sensor {
       windSpeed,
       relativeHumidity,
       co2,
+      recordedAt,
     };
   }
 }
