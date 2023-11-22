@@ -52,28 +52,6 @@ resource "random_pet" "serverless_name" {
   prefix = "serverless"
 }
 
-
-resource "azurerm_linux_function_app" "serverless_app" {
-  name                = random_pet.serverless_name.id
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-
-  service_plan_id            = azurerm_service_plan.service_plan.id
-  storage_account_name       = azurerm_storage_account.storage_account.name
-  storage_account_access_key = azurerm_storage_account.storage_account.primary_access_key
-
-
-  app_settings = {
-    "FUNCTIONS_WORKER_RUNTIME" = "node",
-  }
-
-  site_config {
-    application_stack {
-      node_version = 18
-    }
-  }
-}
-
 resource "random_pet" "sql_server_name" {
   prefix = "sql"
 }
@@ -104,4 +82,26 @@ resource "azurerm_mssql_server" "db_server" {
 resource "azurerm_mssql_database" "db" {
   name      = var.sql_db_name
   server_id = azurerm_mssql_server.db_server.id
+}
+
+resource "azurerm_linux_function_app" "serverless_app" {
+  name                = random_pet.serverless_name.id
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  service_plan_id            = azurerm_service_plan.service_plan.id
+  storage_account_name       = azurerm_storage_account.storage_account.name
+  storage_account_access_key = azurerm_storage_account.storage_account.primary_access_key
+
+
+  app_settings = {
+    "FUNCTIONS_WORKER_RUNTIME" = "node",
+    "SqlConnectionString" = "Server=tcp:${azurerm_mssql_server.db_server.name}.database.windows.net,1433;Initial Catalog=db;Persist Security Info=False;User ID=${var.admin_username};Password=${local.admin_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
+  }
+
+  site_config {
+    application_stack {
+      node_version = 18
+    }
+  }
 }
