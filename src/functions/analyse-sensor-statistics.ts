@@ -5,6 +5,7 @@ import {
   app,
   input,
   output,
+  trigger,
 } from "@azure/functions";
 import { json } from "../utils/json";
 import { DboSensorData } from "../db/sensor-data";
@@ -23,8 +24,8 @@ const sqlOutput = output.sql({
   connectionStringSetting: "SqlConnectionString",
 });
 
-export async function httpTrigger1(
-  request: HttpRequest,
+export async function sqlTrigger(
+  request: any,
   context: InvocationContext
 ): Promise<HttpResponseInit> {
   const data = context.extraInputs.get(sqlInput) as DboSensorData[];
@@ -41,10 +42,13 @@ export async function httpTrigger1(
   return json({ analyse, data });
 }
 
-app.http("analyse-sensor-statistics", {
-  methods: ["GET", "POST"],
-  authLevel: "anonymous",
+app.generic("analyse-sensor-statistics", {
+  handler: sqlTrigger,
+  trigger: trigger.generic({
+    type: "sqlTrigger",
+    tableName: "dbo.sensor_data",
+    connectionStringSetting: "SqlConnectionString",
+  }),
   extraInputs: [sqlInput],
   extraOutputs: [sqlOutput],
-  handler: httpTrigger1,
 });
