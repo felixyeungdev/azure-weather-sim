@@ -5,8 +5,7 @@ export const json = (
   options: Partial<HttpResponseInit> = {}
 ): HttpResponseInit => {
   return {
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data, null, 2),
+    jsonBody: data,
     ...options,
   };
 };
