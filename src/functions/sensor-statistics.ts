@@ -14,7 +14,7 @@ const sqlInput = input.sql({
   connectionStringSetting: "SqlConnectionString",
 });
 
-export async function sqlTrigger(
+export async function httpTrigger(
   request: HttpRequest,
   context: InvocationContext
 ): Promise<HttpResponseInit> {
@@ -26,5 +26,5 @@ app.http("sensor-statistics", {
   methods: ["GET"],
   authLevel: "anonymous",
   extraInputs: [sqlInput],
-  handler: sqlTrigger,
+  handler: httpTrigger,
 });
