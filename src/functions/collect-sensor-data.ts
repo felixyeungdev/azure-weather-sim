@@ -30,7 +30,7 @@ export async function test(
 }
 
 app.timer("collect-sensor-data", {
-  schedule: "*/5 * * * *",
+  schedule: "*/5 * * * * *",
   extraOutputs: [sqlOutput],
   handler: test,
 });
