@@ -5,6 +5,7 @@ import {
   InvocationContext,
 } from "@azure/functions";
 import { sensors } from "../sensors/sensors";
+import { json } from "../utils/json";
 
 export async function test(
   request: HttpRequest,
@@ -17,9 +18,15 @@ export async function test(
   try {
     const data = await sensors.collectData();
 
-    return { body: `Hello, ${name}! data: ${JSON.stringify(data)}` };
+    return json({
+      message: `Hello, ${name}!`,
+      data,
+    });
   } catch (error) {
-    return { body: `Hello, ${name}! error: ${error}` };
+    return json({
+      message: `Hello, ${name}!`,
+      error,
+    });
   }
 }
 
