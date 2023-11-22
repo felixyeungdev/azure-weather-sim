@@ -1,5 +1,5 @@
 export interface DboSensorData {
-  id: number;
+  id: string;
   sensor_id: number;
   temperature: number;
   wind_speed: number;

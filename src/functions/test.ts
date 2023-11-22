@@ -3,9 +3,17 @@ import {
   HttpRequest,
   HttpResponseInit,
   InvocationContext,
+  output,
 } from "@azure/functions";
 import { sensors } from "../sensors/sensors";
 import { json } from "../utils/json";
+import { DboSensorData } from "../db/sensor-data";
+import { randomUUID } from "crypto";
+
+const sqlOutput = output.sql({
+  commandText: "dbo.sensor_data",
+  connectionStringSetting: "SqlConnectionString",
+});
 
 export async function test(
   request: HttpRequest,
@@ -17,6 +25,16 @@ export async function test(
 
   try {
     const data = await sensors.collectData();
+    const sqlData: DboSensorData[] = data.map((d) => ({
+      id: randomUUID(),
+      sensor_id: d.id,
+      temperature: d.temperature,
+      wind_speed: d.windSpeed,
+      relative_humidity: d.relativeHumidity,
+      co2: d.co2,
+      recorded_at: new Date(d.recordedAt),
+    }));
+    context.extraOutputs.set(sqlOutput, sqlData);
 
     return json({
       message: `Hello, ${name}!`,
@@ -31,7 +49,8 @@ export async function test(
 }
 
 app.http("test", {
-  methods: ["GET", "POST"],
+  methods: ["POST"],
   authLevel: "anonymous",
+  extraOutputs: [sqlOutput],
   handler: test,
 });
