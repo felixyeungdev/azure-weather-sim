@@ -4,6 +4,7 @@ import {
   HttpResponseInit,
   InvocationContext,
 } from "@azure/functions";
+import { sensors } from "../sensors/sensors";
 
 export async function test(
   request: HttpRequest,
@@ -13,7 +14,13 @@ export async function test(
 
   const name = request.query.get("name") || (await request.text()) || "world";
 
-  return { body: `Hello, ${name}!` };
+  try {
+    const data = await sensors.collectData();
+
+    return { body: `Hello, ${name}! data: ${JSON.stringify(data)}` };
+  } catch (error) {
+    return { body: `Hello, ${name}! error: ${error}` };
+  }
 }
 
 app.http("test", {
