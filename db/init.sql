@@ -1,5 +1,6 @@
 CREATE TABLE "dbo.sensor_data" (
-	"id" integer PRIMARY KEY NOT NULL,
+	"id" uniqueidentifier PRIMARY KEY NOT NULL,
+	"sensor_id" integer NOT NULL,
 	"temperature" integer NOT NULL,
 	"wind_speed" integer NOT NULL,
 	"relative_humidity" integer NOT NULL,
