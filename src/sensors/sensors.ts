@@ -1,4 +1,4 @@
-import { Sensor } from "./sensor";
+import { Sensor, SensorData } from "./sensor";
 
 const NUMBER_OF_SENSORS = 20;
 
@@ -9,7 +9,7 @@ export class SensorGroup {
     this.sensors.push(sensor);
   }
 
-  public async collectData() {
+  public async collectData(): Promise<SensorData[]> {
     return await Promise.all(
       this.sensors.map((sensor) => sensor.collectData())
     );

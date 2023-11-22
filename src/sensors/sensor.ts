@@ -9,6 +9,15 @@ const dataRanges: {
   co2: [500, 1500],
 };
 
+export interface SensorData {
+  id: number;
+  temperature: number;
+  windSpeed: number;
+  relativeHumidity: number;
+  co2: number;
+  recordedAt: string;
+}
+
 export class Sensor {
   private sensorId: number;
 
@@ -40,7 +49,7 @@ export class Sensor {
     return this.#getRandomData(dataRanges.co2);
   }
 
-  async collectData() {
+  async collectData(): Promise<SensorData> {
     const recordedAt = new Date().toISOString();
     const [temperature, windSpeed, relativeHumidity, co2] = await Promise.all([
       this.getTemperature(),
@@ -50,6 +59,7 @@ export class Sensor {
     ]);
 
     return {
+      id: this.id,
       temperature,
       windSpeed,
       relativeHumidity,
