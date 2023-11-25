@@ -14,6 +14,8 @@ CREATE TABLE "sensor_data" (
 );
 ALTER TABLE "sensor_data" ENABLE CHANGE_TRACKING;
 
+CREATE INDEX "sensor_data_recorded_at" ON "sensor_data" ("recorded_at" DESC);
+
 
 CREATE TABLE "sensor_statistics" (
 	"id" uniqueidentifier PRIMARY KEY NOT NULL,
@@ -33,3 +35,5 @@ CREATE TABLE "sensor_statistics" (
 	"analysed_at" datetime2 NOT NULL,
 	CONSTRAINT "unique_analysed_at" UNIQUE("id","analysed_at")
 )
+
+CREATE INDEX "sensor_statistics_analysed_at" ON "sensor_statistics" ("analysed_at" DESC);
