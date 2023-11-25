@@ -32,7 +32,7 @@ app.timer("collect-sensor-data-timer", {
 });
 
 app.http("collect-sensor-data", {
-  methods: ["GET"],
+  methods: ["POST"],
   authLevel: "anonymous",
   extraOutputs: [sqlOutput],
   handler,

@@ -48,7 +48,7 @@ app.generic("analyse-sensor-statistics-sql", {
 });
 
 app.http("analyse-sensor-statistics", {
-  methods: ["GET"],
+  methods: ["POST"],
   authLevel: "anonymous",
   extraInputs: [sqlInput],
   extraOutputs: [sqlOutput],
