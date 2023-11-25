@@ -17,6 +17,7 @@ ALTER TABLE "sensor_data" ENABLE CHANGE_TRACKING;
 CREATE INDEX "sensor_data_recorded_at" ON "sensor_data" ("recorded_at" DESC);
 
 
+DROP TABLE IF EXISTS "sensor_statistics";
 CREATE TABLE "sensor_statistics" (
 	"id" uniqueidentifier PRIMARY KEY NOT NULL,
 	"sensor_id" integer NOT NULL,
