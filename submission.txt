@@ -1,0 +1,2 @@
+The public github repo is
+https://github.com/felixyeungdev/azure-weather-sim
