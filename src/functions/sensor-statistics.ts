@@ -6,6 +6,8 @@ import {
   input,
 } from "@azure/functions";
 import { json } from "../utils/json";
+import { getSensorStatistics } from "../procedures/get-sensor-statistics";
+import { DboSensorStatisticcs } from "../db/sensor-statistics";
 
 const sqlInput = input.sql({
   commandText:
@@ -14,17 +16,20 @@ const sqlInput = input.sql({
   connectionStringSetting: "SqlConnectionString",
 });
 
-export async function httpTrigger(
+export async function handler(
   request: HttpRequest,
   context: InvocationContext
 ): Promise<HttpResponseInit> {
-  const data = context.extraInputs.get(sqlInput);
-  return json(data);
+  const sqlStatistics = context.extraInputs.get(
+    sqlInput
+  ) as DboSensorStatisticcs[];
+  const { data } = await getSensorStatistics({ sqlStatistics });
+  return json({ data });
 }
 
 app.http("sensor-statistics", {
   methods: ["GET"],
   authLevel: "anonymous",
   extraInputs: [sqlInput],
-  handler: httpTrigger,
+  handler,
 });

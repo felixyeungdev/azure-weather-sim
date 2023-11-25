@@ -1,29 +1,29 @@
-import { app, InvocationContext, output, Timer } from "@azure/functions";
+import {
+  app,
+  HttpResponseInit,
+  InvocationContext,
+  output,
+  Timer,
+} from "@azure/functions";
 import { sensors } from "../sensors/sensors";
 import { DboSensorData } from "../db/sensor-data";
 import { randomUUID } from "crypto";
+import { collectSensorData } from "../procedures/collect-sensor-data";
+import { json } from "../utils/json";
 
 const sqlOutput = output.sql({
   commandText: "dbo.sensor_data",
   connectionStringSetting: "SqlConnectionString",
 });
 
-export async function test(
+export async function handler(
   myTimer: Timer,
   context: InvocationContext
-): Promise<void> {
+): Promise<HttpResponseInit> {
   try {
-    const data = await sensors.collectData();
-    const sqlData: DboSensorData[] = data.map((d) => ({
-      id: randomUUID(),
-      sensor_id: d.id,
-      temperature: d.temperature,
-      wind_speed: d.windSpeed,
-      relative_humidity: d.relativeHumidity,
-      co2: d.co2,
-      recorded_at: new Date(d.recordedAt),
-    }));
-    context.extraOutputs.set(sqlOutput, sqlData);
+    const { sqlSensorData, data } = await collectSensorData({});
+    context.extraOutputs.set(sqlOutput, sqlSensorData);
+    return json({ data });
   } catch (error) {
     context.error(error);
   }
@@ -32,5 +32,5 @@ export async function test(
 app.timer("collect-sensor-data", {
   schedule: "*/5 * * * * *",
   extraOutputs: [sqlOutput],
-  handler: test,
+  handler,
 });
