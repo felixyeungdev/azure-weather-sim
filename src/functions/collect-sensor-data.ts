@@ -17,7 +17,7 @@ const sqlOutput = output.sql({
 });
 
 export async function handler(
-  myTimer: Timer,
+  myTimer: any,
   context: InvocationContext
 ): Promise<HttpResponseInit> {
   try {
@@ -29,8 +29,15 @@ export async function handler(
   }
 }
 
-app.timer("collect-sensor-data", {
+app.timer("collect-sensor-data-timer", {
   schedule: "*/5 * * * * *",
+  extraOutputs: [sqlOutput],
+  handler,
+});
+
+app.http("collect-sensor-data", {
+  methods: ["GET"],
+  authLevel: "anonymous",
   extraOutputs: [sqlOutput],
   handler,
 });

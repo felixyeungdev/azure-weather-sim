@@ -36,7 +36,7 @@ export async function handler(
   return json({ data });
 }
 
-app.generic("analyse-sensor-statistics", {
+app.generic("analyse-sensor-statistics-sql", {
   handler,
   trigger: trigger.generic({
     type: "sqlTrigger",
@@ -45,4 +45,12 @@ app.generic("analyse-sensor-statistics", {
   }),
   extraInputs: [sqlInput],
   extraOutputs: [sqlOutput],
+});
+
+app.http("analyse-sensor-statistics", {
+  methods: ["GET"],
+  authLevel: "anonymous",
+  extraInputs: [sqlInput],
+  extraOutputs: [sqlOutput],
+  handler,
 });
