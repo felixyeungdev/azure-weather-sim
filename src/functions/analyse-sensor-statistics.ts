@@ -6,9 +6,9 @@ import {
   output,
   trigger,
 } from "@azure/functions";
-import { json } from "../utils/json";
 import { DboSensorData } from "../db/sensor-data";
 import { analyseSensorStatistics } from "../procedures/analyse-sensor-statistics";
+import { json } from "../utils/json";
 
 const sqlInput = input.sql({
   commandText:

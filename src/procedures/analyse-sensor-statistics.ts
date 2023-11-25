@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
+import { AnalyticalPlatform } from "../analytical-platform";
 import { DboSensorData } from "../db/sensor-data";
 import { DboSensorStatisticcs } from "../db/sensor-statistics";
-import { AnalyticalPlatform } from "../analytical-platform";
 
 interface AnalyseSensorStatisticsInput {
   sqlSensorData: DboSensorData[];

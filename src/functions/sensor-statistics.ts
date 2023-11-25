@@ -5,9 +5,9 @@ import {
   app,
   input,
 } from "@azure/functions";
-import { json } from "../utils/json";
-import { getSensorStatistics } from "../procedures/get-sensor-statistics";
 import { DboSensorStatisticcs } from "../db/sensor-statistics";
+import { getSensorStatistics } from "../procedures/get-sensor-statistics";
+import { json } from "../utils/json";
 
 const sqlInput = input.sql({
   commandText:

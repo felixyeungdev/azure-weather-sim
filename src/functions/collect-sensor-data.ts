@@ -3,11 +3,7 @@ import {
   HttpResponseInit,
   InvocationContext,
   output,
-  Timer,
 } from "@azure/functions";
-import { sensors } from "../sensors/sensors";
-import { DboSensorData } from "../db/sensor-data";
-import { randomUUID } from "crypto";
 import { collectSensorData } from "../procedures/collect-sensor-data";
 import { json } from "../utils/json";
 
