@@ -25,11 +25,11 @@ export async function handler(
   }
 }
 
-app.timer("collect-sensor-data-timer", {
-  schedule: "*/5 * * * * *",
-  extraOutputs: [sqlOutput],
-  handler,
-});
+// app.timer("collect-sensor-data-timer", {
+//   schedule: "*/5 * * * * *",
+//   extraOutputs: [sqlOutput],
+//   handler,
+// });
 
 app.http("collect-sensor-data", {
   methods: ["POST"],
