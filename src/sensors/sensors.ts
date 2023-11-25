@@ -21,3 +21,13 @@ export const sensors = new SensorGroup();
 for (let index = 0; index < NUMBER_OF_SENSORS; index++) {
   sensors.addSensor(new Sensor(index));
 }
+
+export const generateSensors = (numberOfSensors: number) => {
+  const sensors = new SensorGroup();
+
+  for (let index = 0; index < numberOfSensors; index++) {
+    sensors.addSensor(new Sensor(index));
+  }
+
+  return sensors;
+};

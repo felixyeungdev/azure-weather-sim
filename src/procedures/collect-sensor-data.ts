@@ -1,8 +1,10 @@
 import { randomUUID } from "crypto";
 import { DboSensorData } from "../db/sensor-data";
-import { sensors } from "../sensors/sensors";
+import { generateSensors, sensors } from "../sensors/sensors";
 
-interface CollectSensorDataInput {}
+interface CollectSensorDataInput {
+  numberOfSensors: number;
+}
 interface CollectSensorDataOutput {
   data: DboSensorData[];
   sqlSensorData: DboSensorData[];
@@ -11,6 +13,8 @@ interface CollectSensorDataOutput {
 export const collectSensorData = async (
   input: CollectSensorDataInput
 ): Promise<CollectSensorDataOutput> => {
+  const { numberOfSensors } = input;
+  const sensors = generateSensors(numberOfSensors);
   const data = await sensors.collectData();
 
   const sqlSensorData: DboSensorData[] = data.map((d) => ({
