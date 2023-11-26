@@ -1,5 +1,5 @@
 import { DboSensorData } from "../db/sensor-data";
-import { DboSensorStatisticcs } from "../db/sensor-statistics";
+import { DboSensorStatistics } from "../db/sensor-statistics";
 
 export class AnalyticalPlatform {
   static getMinMaxAvg(data: number[]) {
@@ -52,7 +52,7 @@ export class AnalyticalPlatform {
           co2_max: co2.max,
           co2_avg: co2.avg,
           analysed_at: analysedAt,
-        } as Omit<DboSensorStatisticcs, "id">;
+        } as Omit<DboSensorStatistics, "id">;
       }
     );
 

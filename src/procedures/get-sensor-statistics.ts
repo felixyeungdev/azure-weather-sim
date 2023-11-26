@@ -1,8 +1,8 @@
-import { DboSensorStatisticcs } from "../db/sensor-statistics";
-import { prettyDboSensorStatisticcs } from "../utils/pretty";
+import { DboSensorStatistics } from "../db/sensor-statistics";
+import { prettyDboSensorStatistics } from "../utils/pretty";
 
 interface GetSensorStatisticsInput {
-  sqlStatistics: DboSensorStatisticcs[];
+  sqlStatistics: DboSensorStatistics[];
 }
 interface GetSensorStatisticsOutput {
   data: {
@@ -36,6 +36,6 @@ export const getSensorStatistics = async (
   input: GetSensorStatisticsInput
 ): Promise<GetSensorStatisticsOutput> => {
   const { sqlStatistics } = input;
-  const pretty = sqlStatistics.map(prettyDboSensorStatisticcs);
+  const pretty = sqlStatistics.map(prettyDboSensorStatistics);
   return { data: pretty };
 };

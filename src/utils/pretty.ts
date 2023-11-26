@@ -1,9 +1,9 @@
-import { DboSensorStatisticcs } from "../db/sensor-statistics";
+import { DboSensorStatistics } from "../db/sensor-statistics";
 const createMinMaxAvg = (min: number, avg: number, max: number) => {
   return { min, avg, max };
 };
 
-export interface PrettyDboSensorStatisticcs {
+export interface PrettyDboSensorStatistics {
   id: string;
   sensor_id: number;
   analysed_at: Date;
@@ -29,9 +29,9 @@ export interface PrettyDboSensorStatisticcs {
   };
 }
 
-export const prettyDboSensorStatisticcs = (
-  data: DboSensorStatisticcs
-): PrettyDboSensorStatisticcs => {
+export const prettyDboSensorStatistics = (
+  data: DboSensorStatistics
+): PrettyDboSensorStatistics => {
   const {
     id,
     sensor_id,

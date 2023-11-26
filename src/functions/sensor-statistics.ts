@@ -5,7 +5,7 @@ import {
   app,
   input,
 } from "@azure/functions";
-import { DboSensorStatisticcs } from "../db/sensor-statistics";
+import { DboSensorStatistics } from "../db/sensor-statistics";
 import { getSensorStatistics } from "../procedures/get-sensor-statistics";
 import { json } from "../utils/json";
 
@@ -22,7 +22,7 @@ export async function handler(
 ): Promise<HttpResponseInit> {
   const sqlStatistics = context.extraInputs.get(
     sqlInput
-  ) as DboSensorStatisticcs[];
+  ) as DboSensorStatistics[];
   const { data } = await getSensorStatistics({ sqlStatistics });
   return json({ data });
 }

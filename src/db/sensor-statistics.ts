@@ -1,4 +1,4 @@
-export interface DboSensorStatisticcs {
+export interface DboSensorStatistics {
   id: string;
   sensor_id: number;
   temperature_min: number;
