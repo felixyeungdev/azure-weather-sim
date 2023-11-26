@@ -1,0 +1,10 @@
+### Task 1
+POST https://serverless-oriented-koala.azurewebsites.net/api/collect-sensor-data
+
+
+### Task 2
+POST https://serverless-oriented-koala.azurewebsites.net/api/analyse-sensor-statistics
+
+
+### Task 3 demonstration only
+GET https://serverless-oriented-koala.azurewebsites.net/api/sensor-statistics
