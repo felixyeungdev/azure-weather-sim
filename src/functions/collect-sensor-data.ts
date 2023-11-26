@@ -1,7 +1,5 @@
 import {
   app,
-  HttpHandler,
-  HttpRequest,
   HttpResponseInit,
   InvocationContext,
   output,
@@ -14,18 +12,13 @@ const sqlOutput = output.sql({
   connectionStringSetting: "SqlConnectionString",
 });
 
-type test = HttpHandler;
-
 export async function handler(
-  req: HttpRequest,
+  req: any,
   context: InvocationContext
 ): Promise<HttpResponseInit> {
   try {
-    const _sensors = req.query.get("sensors");
-    const sensors = _sensors ? parseInt(_sensors) : 20;
-
     const { sqlSensorData, data } = await collectSensorData({
-      numberOfSensors: sensors,
+      numberOfSensors: 20,
     });
     context.extraOutputs.set(sqlOutput, sqlSensorData);
     return json({ data });
