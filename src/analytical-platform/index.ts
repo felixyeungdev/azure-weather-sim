@@ -1,7 +1,15 @@
 import { DboSensorData } from "../db/sensor-data";
 import { DboSensorStatistics } from "../db/sensor-statistics";
 
+/**
+ * This is responsible for analysing collected data from sensors.
+ */
 export class AnalyticalPlatform {
+  /**
+   * gets min max avg of some numbers
+   * @param data array of numbers
+   * @returns minimum, maximum and average of the given data
+   */
   static getMinMaxAvg(data: number[]) {
     const min = Math.min(...data);
     const max = Math.max(...data);
@@ -9,6 +17,11 @@ export class AnalyticalPlatform {
     return { min, max, avg };
   }
 
+  /**
+   * analyses the sensor data
+   * @param data array of sensor data
+   * @returns analysed data
+   */
   static analyse(data: DboSensorData[]) {
     const analysedAt = new Date();
     const bySensorId = data.reduce(

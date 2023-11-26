@@ -1,7 +1,10 @@
 import { Sensor, SensorData } from "./sensor";
 
-const NUMBER_OF_SENSORS = 20;
+const NUMBER_OF_SENSORS = 20; // 20 sensors according to specs
 
+/**
+ * This represents a group of sensors
+ */
 export class SensorGroup {
   private sensors: Sensor[] = [];
 
@@ -9,6 +12,10 @@ export class SensorGroup {
     this.sensors.push(sensor);
   }
 
+  /**
+   *
+   * @returns collect all data from all sensors simultaneously
+   */
   public async collectData(): Promise<SensorData[]> {
     return await Promise.all(
       this.sensors.map((sensor) => sensor.collectData())

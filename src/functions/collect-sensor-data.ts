@@ -7,6 +7,9 @@ import {
 import { collectSensorData } from "../procedures/collect-sensor-data";
 import { json } from "../utils/json";
 
+/**
+ * Store collected data
+ */
 const sqlOutput = output.sql({
   commandText: "dbo.sensor_data",
   connectionStringSetting: "SqlConnectionString",
@@ -24,15 +27,22 @@ export async function handler(
     return json({ data });
   } catch (error) {
     context.error(error);
+    return json({ error });
   }
 }
 
+/**
+ * Timer Trigger for this function (Task 3)
+ */
 app.timer("collect-sensor-data-timer", {
   schedule: "*/5 * * * * *",
   extraOutputs: [sqlOutput],
   handler,
 });
 
+/**
+ * HTTP Trigger for this function (Task 1)
+ */
 app.http("collect-sensor-data", {
   methods: ["POST"],
   authLevel: "anonymous",

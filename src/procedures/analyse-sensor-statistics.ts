@@ -20,8 +20,10 @@ export const analyseSensorStatistics = async (
 ): Promise<AnalyseSensorStatisticsOutput> => {
   const { sqlSensorData } = input;
   const analyse = AnalyticalPlatform.analyse(sqlSensorData);
+
+  // match the database schema
   const sqlSensorStatistics = analyse.map((datum) => ({
-    id: randomUUID(),
+    id: randomUUID(), // gives it a unique id UUID V4
     ...datum,
   }));
   return {

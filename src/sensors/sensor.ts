@@ -1,5 +1,8 @@
 import { randomBetween } from "../utils/random-between";
 
+/**
+ * Data for randomly simulating sensor data, inclusively according to specs
+ */
 const dataRanges: {
   [key: string]: [number, number];
 } = {
@@ -9,6 +12,9 @@ const dataRanges: {
   co2: [500, 1500],
 };
 
+/**
+ * Represents what collecting sensor data will give
+ */
 export interface SensorData {
   id: number;
   temperature: number;
@@ -18,6 +24,9 @@ export interface SensorData {
   recordedAt: string;
 }
 
+/**
+ * This class represents a sensor, which can collect data
+ */
 export class Sensor {
   private sensorId: number;
 
@@ -49,6 +58,9 @@ export class Sensor {
     return this.#getRandomData(dataRanges.co2);
   }
 
+  /**
+   * Simulate real world data collection where you would want to collect data from different sensors at the same time
+   */
   async collectData(): Promise<SensorData> {
     const recordedAt = new Date().toISOString();
     const [temperature, windSpeed, relativeHumidity, co2] = await Promise.all([

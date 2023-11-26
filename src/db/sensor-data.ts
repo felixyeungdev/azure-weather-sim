@@ -1,3 +1,6 @@
+/**
+ * Represents a row of the sensor data table
+ */
 export interface DboSensorData {
   id: string;
   sensor_id: number;

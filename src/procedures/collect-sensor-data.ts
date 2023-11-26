@@ -1,6 +1,6 @@
 import { randomUUID } from "crypto";
 import { DboSensorData } from "../db/sensor-data";
-import { generateSensors, sensors } from "../sensors/sensors";
+import { generateSensors } from "../sensors/sensors";
 
 interface CollectSensorDataInput {
   numberOfSensors: number;
@@ -17,8 +17,9 @@ export const collectSensorData = async (
   const sensors = generateSensors(numberOfSensors);
   const data = await sensors.collectData();
 
+  // match the database schema
   const sqlSensorData: DboSensorData[] = data.map((d) => ({
-    id: randomUUID(),
+    id: randomUUID(), // gives it a unique id UUID V4
     sensor_id: d.id,
     temperature: d.temperature,
     wind_speed: d.windSpeed,
