@@ -1,6 +1,6 @@
 ALTER DATABASE db SET CHANGE_TRACKING = ON (CHANGE_RETENTION = 7 DAYS, AUTO_CLEANUP = ON);
 
-
+TRUNCATE TABLE "sensor_data";
 DROP TABLE IF EXISTS "sensor_data";
 CREATE TABLE "sensor_data" (
 	"id" uniqueidentifier PRIMARY KEY NOT NULL,
@@ -17,6 +17,7 @@ ALTER TABLE "sensor_data" ENABLE CHANGE_TRACKING;
 CREATE INDEX "sensor_data_recorded_at" ON "sensor_data" ("recorded_at" DESC);
 
 
+TRUNCATE TABLE "sensor_statistics";
 DROP TABLE IF EXISTS "sensor_statistics";
 CREATE TABLE "sensor_statistics" (
 	"id" uniqueidentifier PRIMARY KEY NOT NULL,
