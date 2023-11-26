@@ -2,13 +2,17 @@ import { randomUUID } from "crypto";
 import { AnalyticalPlatform } from "../analytical-platform";
 import { DboSensorData } from "../db/sensor-data";
 import { DboSensorStatisticcs } from "../db/sensor-statistics";
+import {
+  PrettyDboSensorStatisticcs,
+  prettyDboSensorStatisticcs,
+} from "../utils/pretty";
 
 interface AnalyseSensorStatisticsInput {
   sqlSensorData: DboSensorData[];
 }
 interface AnalyseSensorStatisticsOutput {
   sqlSensorStatistics: DboSensorStatisticcs[];
-  data: DboSensorStatisticcs[];
+  data: PrettyDboSensorStatisticcs[];
 }
 
 export const analyseSensorStatistics = async (
@@ -20,5 +24,8 @@ export const analyseSensorStatistics = async (
     id: randomUUID(),
     ...datum,
   }));
-  return { sqlSensorStatistics, data: sqlSensorStatistics };
+  return {
+    sqlSensorStatistics,
+    data: sqlSensorStatistics.map(prettyDboSensorStatisticcs),
+  };
 };
