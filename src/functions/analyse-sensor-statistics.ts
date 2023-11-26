@@ -4,7 +4,7 @@ import {
   app,
   input,
   output,
-  // trigger,
+  trigger,
 } from "@azure/functions";
 import { DboSensorData } from "../db/sensor-data";
 import { analyseSensorStatistics } from "../procedures/analyse-sensor-statistics";
@@ -36,16 +36,16 @@ export async function handler(
   return json({ data });
 }
 
-// app.generic("analyse-sensor-statistics-sql", {
-//   handler,
-//   trigger: trigger.generic({
-//     type: "sqlTrigger",
-//     tableName: "dbo.sensor_data",
-//     connectionStringSetting: "SqlConnectionString",
-//   }),
-//   extraInputs: [sqlInput],
-//   extraOutputs: [sqlOutput],
-// });
+app.generic("analyse-sensor-statistics-sql", {
+  handler,
+  trigger: trigger.generic({
+    type: "sqlTrigger",
+    tableName: "dbo.sensor_data",
+    connectionStringSetting: "SqlConnectionString",
+  }),
+  extraInputs: [sqlInput],
+  extraOutputs: [sqlOutput],
+});
 
 app.http("analyse-sensor-statistics", {
   methods: ["POST"],
